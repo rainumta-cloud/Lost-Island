@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Lost Island: 10 Days</title>
+  <meta name="description" content="A choose-your-path survival game. Your ship sank! Keep your health, energy, food, and happiness up for 10 days. A new island every day.">
+  <meta name="theme-color" content="#0b3b4a">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏝️</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="vignette" aria-hidden="true"></div>
+  <canvas id="fx-canvas" class="fx-canvas" aria-hidden="true"></canvas>
+  <div id="fx-flash" class="fx-flash" aria-hidden="true"></div>
+
+  <main class="app">
+    <button class="sound-btn" id="btn-sound" type="button" aria-label="Sound">🔊</button>
+
+    <!-- The island scene at the top changes with the game state -->
+    <div class="scene" id="scene" aria-hidden="true">
+      <div class="sky"></div>
+      <div class="stars-layer"></div>
+      <div class="sun"></div>
+      <div class="moon"></div>
+      <div class="cloud c1"></div>
+      <div class="cloud c2"></div>
+      <div class="sea"><div class="wave w1"></div><div class="wave w2"></div><div class="sparkle-sea"></div></div>
+      <div class="island">
+        <span class="palm">🌴</span>
+        <span class="prop prop-shelter" data-flag="shelter">🛖</span>
+        <span class="prop prop-fire" data-flag="fire">🔥</span>
+        <span class="prop prop-sos" data-flag="signal">🆘</span>
+        <span class="prop prop-raft" data-flag="raft">🛶</span>
+        <span class="prop prop-monkey" data-flag="monkey">🐒</span>
+        <span class="prop prop-wilson" data-flag="wilson">🥥</span>
+        <span class="prop prop-treasure" data-flag="treasure">💎</span>
+        <span class="hero" id="hero">🙂</span>
+      </div>
+      <div class="weather rain"></div>
+      <div class="weather flash"></div>
+    </div>
+
+    <!-- Title screen -->
+    <section class="screen" id="screen-title">
+      <div class="title-block">
+        <p class="eyebrow">A choose-your-path survival game</p>
+        <h1 class="logo"><span class="logo-a">Lost Island</span> <span class="logo-b">10 Days</span></h1>
+        <p class="tagline">Your ship sank and you're all alone! Keep ❤️ ⚡ 🍖 😊 up and find your way home.</p>
+      </div>
+
+      <div class="menu">
+        <button class="btn btn-primary" id="btn-continue" hidden>
+          <span class="btn-ico">▶️</span>
+          <span class="btn-body"><b>Continue</b><small id="continue-sub"></small></span>
+        </button>
+        <button class="btn btn-sun" id="btn-daily">
+          <span class="btn-ico">🌅</span>
+          <span class="btn-body"><b id="daily-label">Daily Island</b><small id="daily-sub"></small></span>
+        </button>
+        <button class="btn" id="btn-free">
+          <span class="btn-ico">🎲</span>
+          <span class="btn-body"><b>Random Island</b><small>Play as much as you like · No streak</small></span>
+        </button>
+      </div>
+
+      <div class="daily-done" id="daily-done" hidden></div>
+
+      <div class="title-stats" id="title-stats"></div>
+
+      <div class="menu-row">
+        <button class="btn-ghost" id="btn-endings">🏆 Endings</button>
+        <button class="btn-ghost" id="btn-help">❓ How to Play</button>
+      </div>
+    </section>
+
+    <!-- Game screen -->
+    <section class="screen" id="screen-game" hidden>
+      <header class="topbar">
+        <button class="icon-btn" id="btn-home" aria-label="Home" title="Home (your game is saved)">🏠</button>
+        <div class="day-info">
+          <div class="day-label" id="day-label">Day 1 of 10</div>
+          <div class="day-dots" id="day-dots"></div>
+        </div>
+        <span class="mode-chip" id="mode-chip"></span>
+      </header>
+
+      <div class="stats" id="stats"></div>
+      <div class="items" id="items" aria-label="Your items"></div>
+
+      <article class="card" id="card" aria-live="polite"></article>
+    </section>
+
+    <!-- Ending screen -->
+    <section class="screen" id="screen-end" hidden>
+      <div class="end-card" id="end-card"></div>
+    </section>
+
+    <footer class="foot" id="foot"></footer>
+  </main>
+
+  <!-- New day overlay -->
+  <div class="day-overlay" id="day-overlay" hidden>
+    <div class="do-sun" aria-hidden="true"></div>
+    <div class="do-text">
+      <div class="do-big"></div>
+      <div class="do-small"></div>
+      <div class="do-tap">tap to skip</div>
+    </div>
+  </div>
+
+  <!-- New item popup -->
+  <div class="item-pop" id="item-pop" role="status" hidden>
+    <div class="ip-icon"></div>
+    <div class="ip-text"><small class="ip-sub"></small><b class="ip-label"></b></div>
+  </div>
+
+  <!-- Dialog (endings book / how to play / confirm) -->
+  <div class="modal" id="modal" hidden>
+    <div class="modal-backdrop" data-close></div>
+    <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <button class="icon-btn modal-x" data-close aria-label="Close">✕</button>
+      <h2 id="modal-title"></h2>
+      <div id="modal-body"></div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" hidden></div>
+
+  <script src="js/story.js"></script>
+  <script src="js/engine.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/fx.js"></script>
+  <script src="js/audio.js"></script>
+  <script src="js/ui.js"></script>
+</body>
+</html>
