@@ -588,7 +588,7 @@
   function renderFooter() {
     const mode = Store.mode();
     $('foot').textContent = mode === 'cookie'
-      ? '💾 Auto-saved in your browser cookies · Nothing is sent anywhere'
+      ? '💾 Auto-saved in your browser cookies'
       : mode === 'local'
         ? "💾 Saved in localStorage (browsers block cookies when you open the file directly — they work on a real website)"
         : '⚠️ Your browser is blocking saves — your progress will be lost if you close this page';
