@@ -655,7 +655,6 @@
       S = null;
     }
     renderTitle();
-    if (!meta.runs && !S) showHelp();
   }
 
   init();
