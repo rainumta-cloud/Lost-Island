@@ -1,4 +1,4 @@
-# 🏝️ Lost Island: 10 Days
+# 🏝️ SOS Island: 10 Days
 
 เกมเอาชีวิตรอดแบบข้อความ (ภาษาอังกฤษแบบง่าย เด็กอ่านได้) เลือกเส้นทางเองได้
 เขียนด้วย HTML + CSS + JavaScript ล้วน — ไม่ต้อง build ไม่ใช้ Node.js ไม่ใช้ Database

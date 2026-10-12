@@ -446,7 +446,7 @@
 
   function shareText(x) {
     const en = T.ENDINGS[x.end];
-    const head = x.mode === 'daily' ? `🏝️ Lost Island · Daily #${E.islandNo(x.date)}` : '🏝️ Lost Island · Random Island';
+    const head = x.mode === 'daily' ? `🏝️ SOS Island · Daily #${E.islandNo(x.date)}` : '🏝️ SOS Island · Random Island';
     const status = en.dead ? `ended on Day ${x.day}/10` : 'survived all 10 days';
     const url = /^https?:/.test(location.protocol) ? '\n' + location.origin + location.pathname : '';
     return `${head}\n${en.icon} ${en.title} (${status})\n${grid(x.h, x.end)}${url}`;
