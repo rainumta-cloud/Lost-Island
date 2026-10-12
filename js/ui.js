@@ -587,11 +587,12 @@
 
   function renderFooter() {
     const mode = Store.mode();
-    $('foot').textContent = mode === 'cookie'
-      ? '💾 Auto-saved in your browser cookies'
+    const foot = $('foot');
+    foot.textContent = mode === 'cookie' ? ''
       : mode === 'local'
         ? "💾 Saved in localStorage (browsers block cookies when you open the file directly — they work on a real website)"
         : '⚠️ Your browser is blocking saves — your progress will be lost if you close this page';
+    foot.hidden = !foot.textContent;
   }
 
   function renderSoundBtn() {
